@@ -30,7 +30,7 @@ import java.util.Properties;
 @NoArgsConstructor
 @AllArgsConstructor
 @Component
-public class MessageHandler {
+public class InlineMessageHandler {
 
     @Autowired
     private DimTelegramBot bot;
@@ -64,14 +64,14 @@ public class MessageHandler {
         switch (message) {
             case "/start":
                 SendMessage badMessage = new SendMessage(chatId, "Что будем делать?");
-                badMessage.setReplyMarkup(replyKeyboardMaker.getMainMenuKeyboard());
+                badMessage.setReplyMarkup(inlineKeyboardMaker.getInlineMessageButtons());
                 bot.sendMessage(badMessage);
                 return "";
 
             case "/start@DimBotV1bot":
                 SendMessage badMessage2 = new SendMessage(chatId, "Что будем делать?");
                 badMessage2.enableMarkdown(true);
-                badMessage2.setReplyMarkup(replyKeyboardMaker.getMainMenuKeyboard());
+                badMessage2.setReplyMarkup(inlineKeyboardMaker.getInlineMessageButtons());
                 bot.sendMessage(badMessage2);
                 return "";
 
@@ -89,7 +89,6 @@ public class MessageHandler {
 
                 String rooster = list.isEmpty() ? "\uD83C\uDF89 Сегодня все петухи" : "\uD83C\uDF89 Сегодня петух - " + list.get(random);
                 SendMessage sm = new SendMessage(chatId, rooster);
-                sm.setReplyMarkup(inlineKeyboardMaker.getInlineMessageButtons());
                 bot.sendMessage(sm);
                 return "";
             }
@@ -143,7 +142,6 @@ public class MessageHandler {
 
                 String rooster = newList.isEmpty() ? "\uD83C\uDF89 Сегодня все петухи" : "\uD83C\uDF89 Сегодня петух - " + newList.get(newRandom);
                 SendMessage sm = new SendMessage(chatId, rooster);
-                sm.setReplyMarkup(inlineKeyboardMaker.getInlineMessageButtons());
                 bot.sendMessage(sm);
                 return "";
 
@@ -151,7 +149,9 @@ public class MessageHandler {
                 return "Всем пока! Хорошего дня, котики!";
 
             default:
-                return "Ты глупый? Команду правильно сформулируй";
+                return "";
+//            default:
+//                return "Ты глупый? Команду правильно сформулируй";
         }
     }
 
@@ -192,7 +192,7 @@ public class MessageHandler {
             } else if (update.hasCallbackQuery()) {
                 user = update.getCallbackQuery().getMessage().getFrom();
             }
-            if (!properties.contains(user)) {
+            if (!properties.contains(user) && !user.getUserName().equals("DimBotV1bot")) {
                 String firstName = user.getFirstName() != null ? user.getFirstName() : "";
                 String lastName = user.getLastName() != null ? user.getLastName() : "";
                 properties.setProperty(user.getUserName(), firstName + " " + lastName);
@@ -210,7 +210,7 @@ public class MessageHandler {
         for (String badWord : BadWords.badWords) {
             if (message.toLowerCase().contains(badWord)) {
                 SendMessage sm = new SendMessage(chatId,
-                        update.getMessage().getChat().getFirstName() + ", не ругайся! Напиши вежливо");
+                        update.getMessage().getFrom().getFirstName() + ", не ругайся! Пиши вежливо");
                 sm.setReplyToMessageId(update.getMessage().getMessageId());
                 bot.sendMessage(sm);
                 check = true;

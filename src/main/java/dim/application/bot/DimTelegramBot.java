@@ -18,6 +18,9 @@ public class DimTelegramBot extends TelegramLongPollingBot {
     @Autowired
     private MessageHandler messageHandler;
 
+    @Autowired
+    private InlineMessageHandler inlineMessageHandler;
+
     @Override
     public void onUpdateReceived(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
@@ -25,9 +28,9 @@ public class DimTelegramBot extends TelegramLongPollingBot {
 //            String message = update.getMessage().getText().trim();
             String chatId = update.getMessage().getChatId().toString();
 
-            String message = messageHandler.handleMessage(update);
+            String message = inlineMessageHandler.handleMessage(update);
 
-            if (!message.isBlank() && !message.isEmpty()) {
+            if (!message.equals("") || !message.isEmpty()) {
                 SendMessage sm = new SendMessage();
                 sm.setChatId(chatId);
                 sm.setText(message);
@@ -35,9 +38,9 @@ public class DimTelegramBot extends TelegramLongPollingBot {
             }
         } else if (update.hasCallbackQuery()) {
             String chatId = update.getCallbackQuery().getMessage().getChatId().toString();
-            String message = messageHandler.handleMessage(update);
+            String message = inlineMessageHandler.handleMessage(update);
 
-            if (!message.isBlank() && !message.isEmpty()) {
+            if (!message.equals("") || !message.isEmpty()) {
                 SendMessage sm = new SendMessage();
                 sm.setChatId(chatId);
                 sm.setText(message);

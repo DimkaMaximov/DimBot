@@ -10,25 +10,24 @@ import java.util.List;
 @Component
 public class InlineKeyboardMaker {
 
-    public InlineKeyboardMarkup getInlineMessageButtonsWithTemplate() {
-        InlineKeyboardMarkup inlineKeyboardMarkup = getInlineMessageButtons();
-        inlineKeyboardMarkup.getKeyboard().add(getButton(
-                "Шаблон",
-                "Шаблончик"
-        ));
-        return inlineKeyboardMarkup;
-    }
-
     public InlineKeyboardMarkup getInlineMessageButtons() {
         List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
 
         rowList.add(getButton(
-                "Согласиться",
-                "Согласиться"));
+                "Крути петушиный барабан",
+                "Крути петушиный барабан"));
 
         rowList.add(getButton(
-                "Крути барабан заново",
-                "Крути барабан заново"));
+                "Вычислить красавчика",
+                "Вычислить красавчика"));
+
+        rowList.add(getButton(
+                "Сделай что-нибудь",
+                "Сделай что-нибудь"));
+
+        rowList.add(getButton(
+                "Пришли мне котика",
+                "Пришли мне котика"));
 
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         inlineKeyboardMarkup.setKeyboard(rowList);

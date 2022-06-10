@@ -4,7 +4,7 @@ package dim.application.bot.component;
  * Названия кнопок основной клавиатуры
  */
 public enum ButtonNameEnum {
-    IDENTIFY_ROOSTER("Вычислить петуха"),
+    IDENTIFY_ROOSTER("Крути петушиный барабан"),
     IDENTIFY_PRETTY("Вычислить красавчика"),
     DO_SOMETHING("Сделай что-нибудь"),
     SEND_ME_CAT("Пришли мне котика");
