@@ -12,7 +12,7 @@ public class SpringConfig {
     //private final TelegramConfig telegramConfig;
 
     @Bean
-    public RoboCatBot dimTelegramBot() {
+    public RoboCatBot roboCatBot() {
         return new RoboCatBot();
     }
 }
