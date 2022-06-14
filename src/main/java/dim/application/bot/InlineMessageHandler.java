@@ -1,7 +1,9 @@
 package dim.application.bot;
 
+import dim.application.bot.component.Divination;
 import dim.application.bot.component.InlineKeyboardMaker;
 import dim.application.bot.component.ReplyKeyboardMaker;
+import dim.application.bot.component.Stickers;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -33,7 +35,7 @@ import java.util.Properties;
 public class InlineMessageHandler {
 
     @Autowired
-    private DimTelegramBot bot;
+    private RoboCatBot bot;
 
     @Autowired
     private ReplyKeyboardMaker replyKeyboardMaker;
@@ -118,7 +120,7 @@ public class InlineMessageHandler {
 
             case "Пришли мне котика":
                 List<String> catsList = new ArrayList<>();
-                catsList.addAll(0, Utils.stickersList);
+                catsList.addAll(0, Stickers.stickersList);
                 Collections.shuffle(catsList);
                 SendSticker stickerMessage = new SendSticker(chatId, new InputFile(catsList.get(0)));
                 try {
@@ -164,7 +166,7 @@ public class InlineMessageHandler {
         }
 
         List<String> list = new ArrayList<>();
-        list.addAll(0, Utils.divinationList);
+        list.addAll(0, Divination.divinationList);
 
         int random = (int) (1 + (Math.random()) * 5);
         int count = 1;

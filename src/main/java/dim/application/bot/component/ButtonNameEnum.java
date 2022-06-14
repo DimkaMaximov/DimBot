@@ -7,7 +7,8 @@ public enum ButtonNameEnum {
     IDENTIFY_ROOSTER("Крути петушиный барабан"),
     IDENTIFY_PRETTY("Вычислить красавчика"),
     DO_SOMETHING("Сделай что-нибудь"),
-    SEND_ME_CAT("Пришли мне котика");
+    SEND_ME_CAT("Пришли мне котика"),
+    ESTIMATE_AVATAR("Оцени мою аватарку");
 
     private final String buttonName;
 

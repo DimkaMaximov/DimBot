@@ -1,6 +1,6 @@
 package dim.application.configs;
 
-import dim.application.bot.DimTelegramBot;
+import dim.application.bot.RoboCatBot;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +12,7 @@ public class SpringConfig {
     //private final TelegramConfig telegramConfig;
 
     @Bean
-    public DimTelegramBot dimTelegramBot() {
-        return new DimTelegramBot();
+    public RoboCatBot dimTelegramBot() {
+        return new RoboCatBot();
     }
 }

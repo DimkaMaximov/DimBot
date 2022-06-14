@@ -1,1 +1,1 @@
-worker: sh target/bin/worker Bot
+worker: sh target/bin/worker robo_cat_bot
