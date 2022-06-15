@@ -33,5 +33,30 @@ public class Stickers {
         stickersList.add("CAACAgIAAxkBAAEE8NRioKwoCChZcHogqwKbIqUMnLiXHwACvhIAAvGuyEuvusjlJl4l6SQE");
         stickersList.add("CAACAgIAAxkBAAEE8NZioKwoZgbXjHwn6SDgpRCgOIiNMgACNxQAAs_jyUv7Vw95fDO8NCQE");
         stickersList.add("CAACAgIAAxkBAAEE8NdioKwowGIIPYKWXYnfwnUDhS9qogACXxMAAi5eyEvZq78wYISWMyQE");
+        stickersList.add("CAACAgIAAxkBAAEFDBBiqdPRAwejEy70y1DoWP0qt6yu8gAC1xUAAjni0Euew4kBM4ZPZCQE");
+        stickersList.add("CAACAgIAAxkBAAEFDBFiqdPSQ4v01cANU4Q3C1WGHOvHSAACShMAAtOqyEt2VX0Drv4SMiQE");
+        stickersList.add("CAACAgIAAxkBAAEFDBNiqdPSsC_r9oAoukMwkQSkhsVGHQAC_BcAAnq-yUugX_MausOeZSQE");
+        stickersList.add("CAACAgIAAxkBAAEFDBRiqdPTxJ1ScuBhBsCZ5pK87PgWmgACnRMAAo3R0UtBlgtVJTVjbCQE");
+        stickersList.add("CAACAgIAAxkBAAEFDBZiqdPUzYFFKrKEk-cUwM6SDhNFPAACRxQAAusNyUsHv-H5vTokSCQE");
+        stickersList.add("CAACAgIAAxkBAAEFDBdiqdPU6p3EmRa0QXquVdo1gZ5UsAAC-xQAAoQ-yUtydkanKpGfriQE");
+        stickersList.add("CAACAgIAAxkBAAEFDBliqdPUygY7M4yvs7jtqHLmt2ddiwACDRUAAnkiyUsDzH-EwxzW3CQE");
+        stickersList.add("CAACAgIAAxkBAAEFDBpiqdPVBepS8560SZ52nVRI3fJi3gACuhIAAoYW0UtZsCgMYT7ijiQE");
+        stickersList.add("CAACAgIAAxkBAAEFDBtiqdPVobqsH2KosQmgR7Mee8FBbQACqRYAAqnQ0UtEsMKQ0Z3RbyQE");
+        stickersList.add("CAACAgIAAxkBAAEFDB1iqdPW6gNZ4ZNafwABrGK5jt5afOAAAv4WAAIUqchLgAy45lkqGqskBA");
+        stickersList.add("CAACAgIAAxkBAAEFDB5iqdPWyCix0Dp5LOP7_Xk_oSYhJQACiRUAAtI30Uvvk9YteS5JbCQE");
+        stickersList.add("CAACAgIAAxkBAAEFDCBiqdPXQOhL3ti0SWp0Yck12663eAACYRYAAvaTyEuNbSq_bQOhUiQE");
+        stickersList.add("CAACAgIAAxkBAAEFDCFiqdPXveJe30naQCEiMnqF0n0qLQACmRcAAnCZ0Uu82yA3laPC6SQE");
+        stickersList.add("CAACAgIAAxkBAAEFDCJiqdPYHOdC1gKLOqzmGP4Vmvo5_AAClBIAAjHkyEvqk6jpHMrXaSQE");
+        stickersList.add("CAACAgIAAxkBAAEFDCRiqdPYk5yvgOukOmyMJmyZXJADrwAC9hEAAoxgyEtUv2Q1kIt3JiQE");
+        stickersList.add("CAACAgIAAxkBAAEFDCZiqdPaPh9XnDUg-XrVxgJWytJ3WgACxBUAAl2OyEvfR8UPTyb63CQE");
+        stickersList.add("CAACAgIAAxkBAAEFDCdiqdPaAiVywXpfyjnc26g7eKMs7AACzxMAArTo0UsGyUtg5gABgMgkBA");
+        stickersList.add("CAACAgIAAxkBAAEFDCliqdPa2_10z11wc_n6Mn6ZvE1tyAACOBQAAtFMyEvMBDqk0D7GICQE");
+        stickersList.add("CAACAgIAAxkBAAEFDCpiqdPb350BVj7_0BMl4L7qQ5xJcQAC1RUAAse30EtuFXv6xli5QSQE");
+        stickersList.add("CAACAgIAAxkBAAEFDCtiqdPbNoyfmhtQLGEdPMJcVsQwyQACehMAAq1U2EursWkfUowXbCQE");
+        stickersList.add("CAACAgIAAxkBAAEFDC1iqdPc_rRh7VROFIE6YDQDi61WhwACMBMAAiih0EsTw0KIYbQFsiQE");
+        stickersList.add("CAACAgIAAxkBAAEFDC5iqdPcOSwbAQSiji98yQsn2Q0jmAACqxQAAqfQ8UtQa9YTljxjoCQE");
+        stickersList.add("CAACAgIAAxkBAAEFDC9iqdPcMGXsWCjIswNoyYmdFsErsQACpBIAAopt8EuzZOCk0OgHQSQE");
+        stickersList.add("CAACAgIAAxkBAAEFDDFiqdPdavL_BESwn14MEtMiWUp7BAACxRgAAnzb-UuHE4mP5BPJnCQE");
+        stickersList.add("CAACAgIAAxkBAAEFDDJiqdPdT6lDNCnOoidYNVjkB-FLBAACbBIAAjIe8EuJaSSlLEPgMCQE");
     }
 }

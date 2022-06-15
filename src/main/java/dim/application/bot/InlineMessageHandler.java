@@ -14,19 +14,16 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendSticker;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Random;
 
 @Data
 @NoArgsConstructor
@@ -59,18 +56,13 @@ public class InlineMessageHandler {
             message = update.getMessage().getText();
         }
 
-        if (checkBadWords(message, chatId, update)) {
+        if (Utils.checkBadWords(bot, message, chatId, update)) {
             return "";
         }
 
         switch (message) {
             case "/start":
-                SendMessage badMessage = new SendMessage(chatId, "Что будем делать?");
-                badMessage.setReplyMarkup(inlineKeyboardMaker.getInlineMessageButtons());
-                bot.sendMessage(badMessage);
-                return "";
-
-            case "/start@DimBotV1bot":
+            case "/start@robo_cat_bot":
                 SendMessage badMessage2 = new SendMessage(chatId, "Что будем делать?");
                 badMessage2.enableMarkdown(true);
                 badMessage2.setReplyMarkup(inlineKeyboardMaker.getInlineMessageButtons());
@@ -78,37 +70,59 @@ public class InlineMessageHandler {
                 return "";
 
             case "Крути петушиный барабан": {
-                checkProperties(update);
-                int random = (int) (Math.random() * properties.size());
+
+                if(bot.getDateForRooster() == null || !bot.getDateForRooster().isEqual(LocalDate.now())) {
+                    bot.setDateForRooster(LocalDate.now());
+                } else {
+                    SendMessage sm = new SendMessage(chatId,
+                            update.getCallbackQuery().getFrom().getFirstName() + ", уже все знают, кто сегодня петух \uD83D\uDE09");
+                    bot.sendMessage(sm);
+                    return "";
+                }
+
+                Utils.checkProperties(properties, update);
+
+                Random randomGen = new Random();
+                int random = randomGen.nextInt(properties.size());
                 List<String> list = new ArrayList<>();
                 for (Map.Entry<Object, Object> entry : properties.entrySet()) {
                     list.add(entry.getValue().toString());
                 }
-                SendMessage goodMessage = new SendMessage(chatId, "Процесс запущен ⏱ \uD83D\uDC14");
-                bot.sendMessage(goodMessage);
+
+                bot.sendMessage(new SendMessage(chatId, "Процесс запущен ⏱ \uD83D\uDC14"));
 
                 estimationResponse(chatId);
 
-                String rooster = list.isEmpty() ? "\uD83C\uDF89 Сегодня все петухи" : "\uD83C\uDF89 Сегодня петух - " + list.get(random);
-                SendMessage sm = new SendMessage(chatId, rooster);
-                bot.sendMessage(sm);
-                return "";
+                return list.isEmpty() ? "\uD83C\uDF89 Сегодня все петухи" : "\uD83C\uDF89 Сегодня петух - " + list.get(random);
             }
 
             case "Вычислить красавчика":
-                checkProperties(update);
-                int random = (int) (Math.random() * properties.size());
+                if(bot.getDateForPretty() == null || !bot.getDateForPretty().isEqual(LocalDate.now())) {
+                    bot.setDateForPretty(LocalDate.now());
+                } else {
+                    SendMessage sm = new SendMessage(chatId,
+                            update.getCallbackQuery().getFrom().getFirstName() + ", красавчик на сегодня уже известен \uD83D\uDE09");
+                    bot.sendMessage(sm);
+                    return "";
+                }
+
+                Utils.checkProperties(properties, update);
+
+                Random randomGen = new Random();
+                int random = randomGen.nextInt(properties.size());
                 List<String> list = new ArrayList<>();
                 for (Map.Entry<Object, Object> entry : properties.entrySet()) {
                     list.add(entry.getValue().toString());
                 }
-                SendMessage goodMessage = new SendMessage(chatId, "Процесс запущен ⏱");
-                bot.sendMessage(goodMessage);
+
+                bot.sendMessage(new SendMessage(chatId, "Процесс запущен ⏱"));
+
                 estimationResponse(chatId);
+
                 return list.isEmpty() ? "Сегодня все красавчики" : "\uD83C\uDF89 Сегодня красавчик - " + list.get(random);
 
             case "Сделай что-нибудь":
-                SendAudio audioMessage = new SendAudio(chatId, new InputFile(new File("src/main/resources/audio/otryshka.mp3")));
+                SendAudio audioMessage = new SendAudio(chatId, new InputFile(new File("src/main/resources/audio/audio_2.mp3")));
                 try {
                     bot.execute(audioMessage);
                 } catch (TelegramApiException e) {
@@ -117,6 +131,7 @@ public class InlineMessageHandler {
                 return "";
 
             //case "С днем рождения":
+            //case "Оцени мою аватарку":
 
             case "Пришли мне котика":
                 List<String> catsList = new ArrayList<>();
@@ -130,30 +145,12 @@ public class InlineMessageHandler {
                 }
                 return "";
 
-            case "Крути барабан заново":
-                checkProperties(update);
-                int newRandom = (int) (Math.random() * properties.size());
-                List<String> newList = new ArrayList<>();
-                for (Map.Entry<Object, Object> entry : properties.entrySet()) {
-                    newList.add(entry.getValue().toString());
-                }
-                SendMessage newGoodMessage = new SendMessage(chatId, "Процесс запущен ⏱ \uD83D\uDC14");
-                bot.sendMessage(newGoodMessage);
-
-                estimationResponse(chatId);
-
-                String rooster = newList.isEmpty() ? "\uD83C\uDF89 Сегодня все петухи" : "\uD83C\uDF89 Сегодня петух - " + newList.get(newRandom);
-                SendMessage sm = new SendMessage(chatId, rooster);
-                bot.sendMessage(sm);
-                return "";
-
             case "/stop":
+            case "/stop@robo_cat_bot":
                 return "Всем пока! Хорошего дня, котики!";
 
             default:
                 return "";
-//            default:
-//                return "Ты глупый? Команду правильно сформулируй";
         }
     }
 
@@ -168,10 +165,11 @@ public class InlineMessageHandler {
         List<String> list = new ArrayList<>();
         list.addAll(0, Divination.divinationList);
 
-        int random = (int) (1 + (Math.random()) * 5);
+        Random randomGen = new Random();
+        int random = randomGen.nextInt(2)+3;
         int count = 1;
 
-        while (count < random) {
+        while (count <= random) {
             Collections.shuffle(list);
             SendMessage message = new SendMessage(chatId, list.get(0));
             bot.sendMessage(message);
@@ -183,42 +181,5 @@ public class InlineMessageHandler {
                 ex.printStackTrace();
             }
         }
-    }
-
-    public void checkProperties(Update update) {
-        try {
-            properties.load(new FileReader("src/main/resources/users/users.properties"));
-            User user = null;
-            if (update.hasMessage()) {
-                user = update.getMessage().getFrom();
-            } else if (update.hasCallbackQuery()) {
-                user = update.getCallbackQuery().getMessage().getFrom();
-            }
-            if (!properties.contains(user) && !user.getUserName().equals("DimBotV1bot")) {
-                String firstName = user.getFirstName() != null ? user.getFirstName() : "";
-                String lastName = user.getLastName() != null ? user.getLastName() : "";
-                properties.setProperty(user.getUserName(), firstName + " " + lastName);
-                properties.store(new FileOutputStream("src/main/resources/users/users.properties"), null);
-            }
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public boolean checkBadWords(String message, String chatId, Update update) {
-        boolean check = false;
-        for (String badWord : BadWords.badWords) {
-            if (message.toLowerCase().contains(badWord)) {
-                SendMessage sm = new SendMessage(chatId,
-                        update.getMessage().getFrom().getFirstName() + ", не ругайся! Пиши вежливо");
-                sm.setReplyToMessageId(update.getMessage().getMessageId());
-                bot.sendMessage(sm);
-                check = true;
-                break;
-            }
-        }
-        return check;
     }
 }
