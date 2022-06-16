@@ -22,7 +22,6 @@ public class Divination {
         divinationList.add("Вожу пальцем по воде...");
         divinationList.add("Рисую на песке...");
         divinationList.add("Ловлю хомяка для жертвоприношения...");
-        divinationList.add("Ловлю хомяка для жертвоприношения...");
         divinationList.add("Отправляю сигналы в космос...");
         divinationList.add("Открываю \"Книгу Перемен\"...");
         divinationList.add("Пускаю стрелу в небо...");
@@ -31,16 +30,12 @@ public class Divination {
         divinationList.add("Черчу магический круг...");
         divinationList.add("Вхожу в транс...");
         divinationList.add("Задал вопрос жрецу...");
-        divinationList.add("Задал вопрос жрецу...");
-        divinationList.add("Задал вопрос жрецу...");
         divinationList.add("Призываю духов...");
         divinationList.add("Сжигаю чучело...");
         divinationList.add("Кручу-верчу, запутать хочу...");
         divinationList.add("Зашиваю куклу вуду...");
         divinationList.add("Бью праздничный сервиз...");
-        divinationList.add("Зашиваю куклу вуду...");
         divinationList.add("Читаю священные писания...");
         divinationList.add("Составляю графики...");
-        divinationList.add("Читаю священные писания...");
     }
 }

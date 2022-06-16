@@ -96,7 +96,7 @@ public class InlineMessageHandler {
                 return list.isEmpty() ? "\uD83C\uDF89 Сегодня все петухи" : "\uD83C\uDF89 Сегодня петух - " + list.get(random);
             }
 
-            case "Вычислить красавчика":
+            case "Вычисли красавчика":
                 if(bot.getDateForPretty() == null || !bot.getDateForPretty().isEqual(LocalDate.now())) {
                     bot.setDateForPretty(LocalDate.now());
                 } else {

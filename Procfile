@@ -1,0 +1,1 @@
+worker: sh target/bin/robo_cat_bot
