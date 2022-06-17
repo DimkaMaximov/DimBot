@@ -15,11 +15,13 @@ public class InlineKeyboardMaker {
 
         rowList.add(getTwoButtonsInRow(
                 "Крути петушиный барабан", "Крути петушиный барабан",
-                "Вычисли красавчика", "Вычисли красавчика"));
+                "Выбери красавчика", "Выбери красавчика"));
 
         rowList.add(getTwoButtonsInRow(
                 "Сделай что-нибудь", "Сделай что-нибудь",
                 "Пришли мне котика", "Пришли мне котика"));
+
+        rowList.add(getButtonInRow("Скажи мне что-нибудь приятное", "Скажи мне что-нибудь приятное"));
 
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         inlineKeyboardMarkup.setKeyboard(rowList);

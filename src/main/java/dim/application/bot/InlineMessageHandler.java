@@ -1,5 +1,6 @@
 package dim.application.bot;
 
+import dim.application.bot.component.Compliment;
 import dim.application.bot.component.Divination;
 import dim.application.bot.component.InlineKeyboardMaker;
 import dim.application.bot.component.ReplyKeyboardMaker;
@@ -48,12 +49,16 @@ public class InlineMessageHandler {
 
         String chatId;
         String message;
+        String userName;
+
         if (update.hasCallbackQuery()) {
             chatId = update.getCallbackQuery().getMessage().getChatId().toString();
             message = update.getCallbackQuery().getData();
+            userName = update.getCallbackQuery().getFrom().getFirstName();
         } else {
             chatId = update.getMessage().getChatId().toString();
             message = update.getMessage().getText();
+            userName = update.getMessage().getFrom().getFirstName();
         }
 
         if (Utils.checkBadWords(bot, message, chatId, update)) {
@@ -63,7 +68,7 @@ public class InlineMessageHandler {
         switch (message) {
             case "/start":
             case "/start@robo_cat_bot":
-                SendMessage badMessage2 = new SendMessage(chatId, "Что будем делать?");
+                SendMessage badMessage2 = new SendMessage(chatId, userName + ", что будем делать?");
                 badMessage2.enableMarkdown(true);
                 badMessage2.setReplyMarkup(inlineKeyboardMaker.getInlineMessageButtons());
                 bot.sendMessage(badMessage2);
@@ -71,11 +76,11 @@ public class InlineMessageHandler {
 
             case "Крути петушиный барабан": {
 
-                if(bot.getDateForRooster() == null || !bot.getDateForRooster().isEqual(LocalDate.now())) {
+                if (bot.getDateForRooster() == null || !bot.getDateForRooster().isEqual(LocalDate.now())) {
                     bot.setDateForRooster(LocalDate.now());
                 } else {
                     SendMessage sm = new SendMessage(chatId,
-                            update.getCallbackQuery().getFrom().getFirstName() + ", уже все знают, кто сегодня петух \uD83D\uDE09");
+                            userName + ", уже все знают, кто сегодня петух \uD83D\uDE09");
                     bot.sendMessage(sm);
                     return "";
                 }
@@ -89,19 +94,19 @@ public class InlineMessageHandler {
                     list.add(entry.getValue().toString());
                 }
 
-                bot.sendMessage(new SendMessage(chatId, "Процесс запущен ⏱ \uD83D\uDC14"));
+                bot.sendMessage(new SendMessage(chatId, "Кручу петушиный барабан ⏱\uD83D\uDC14"));
 
                 estimationResponse(chatId);
 
                 return list.isEmpty() ? "\uD83C\uDF89 Сегодня все петухи" : "\uD83C\uDF89 Сегодня петух - " + list.get(random);
             }
 
-            case "Вычисли красавчика":
-                if(bot.getDateForPretty() == null || !bot.getDateForPretty().isEqual(LocalDate.now())) {
+            case "Выбери красавчика":
+                if (bot.getDateForPretty() == null || !bot.getDateForPretty().isEqual(LocalDate.now())) {
                     bot.setDateForPretty(LocalDate.now());
                 } else {
                     SendMessage sm = new SendMessage(chatId,
-                            update.getCallbackQuery().getFrom().getFirstName() + ", красавчик на сегодня уже известен \uD83D\uDE09");
+                            userName + ", красавчик на сегодня уже известен \uD83D\uDE09");
                     bot.sendMessage(sm);
                     return "";
                 }
@@ -115,7 +120,7 @@ public class InlineMessageHandler {
                     list.add(entry.getValue().toString());
                 }
 
-                bot.sendMessage(new SendMessage(chatId, "Процесс запущен ⏱"));
+                bot.sendMessage(new SendMessage(chatId, "Выбираю красавчика ⏱\uD83E\uDD70"));
 
                 estimationResponse(chatId);
 
@@ -130,10 +135,17 @@ public class InlineMessageHandler {
                 }
                 return "";
 
+            case "Скажи мне что-нибудь приятное":
+                List<String> compliments = new ArrayList<>();
+                compliments.addAll(0, Compliment.compliments);
+                Collections.shuffle(compliments);
+                bot.sendMessage(new SendMessage(chatId, userName + ", " + compliments.get(0)));
+                return "";
+
             //case "С днем рождения":
-            //case "Оцени мою аватарку":
 
             case "Пришли мне котика":
+                bot.sendMessage(new SendMessage(chatId, userName + ", вот тебе котик \uD83D\uDC08:"));
                 List<String> catsList = new ArrayList<>();
                 catsList.addAll(0, Stickers.stickersList);
                 Collections.shuffle(catsList);
@@ -166,7 +178,7 @@ public class InlineMessageHandler {
         list.addAll(0, Divination.divinationList);
 
         Random randomGen = new Random();
-        int random = randomGen.nextInt(2)+3;
+        int random = randomGen.nextInt(2) + 3;
         int count = 1;
 
         while (count <= random) {
