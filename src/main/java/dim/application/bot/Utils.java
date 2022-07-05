@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Properties;
 
 public class Utils {
@@ -35,16 +36,12 @@ public class Utils {
     }
 
     public static boolean checkBadWords(RoboCatBot bot, String message, String chatId, Update update) {
-        boolean check = false;
-        for (String badWord : BadWords.badWords) {
-            if (message.toLowerCase().contains(badWord)) {
-                SendMessage sm = new SendMessage(chatId,
-                        update.getMessage().getFrom().getFirstName() + ", не ругайся! Пиши вежливо");
-                sm.setReplyToMessageId(update.getMessage().getMessageId());
-                bot.sendMessage(sm);
-                check = true;
-                break;
-            }
+        boolean check = Arrays.stream(BadWords.badWords).anyMatch(message.toLowerCase()::contains);
+        if (check) {
+            SendMessage sm = new SendMessage(chatId,
+                    update.getMessage().getFrom().getFirstName() + ", не ругайся! Пиши вежливо");
+            sm.setReplyToMessageId(update.getMessage().getMessageId());
+            bot.sendMessage(sm);
         }
         return check;
     }

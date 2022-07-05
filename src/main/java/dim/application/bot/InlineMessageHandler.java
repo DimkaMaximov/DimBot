@@ -43,6 +43,8 @@ public class InlineMessageHandler {
 
     private Properties properties = new Properties();
 
+    private Random randomGen = new Random();
+
     //private List<String> users;
 
     public String handleMessage(Update update) {
@@ -87,7 +89,6 @@ public class InlineMessageHandler {
 
                 Utils.checkProperties(properties, update);
 
-                Random randomGen = new Random();
                 int random = randomGen.nextInt(properties.size());
                 List<String> list = new ArrayList<>();
                 for (Map.Entry<Object, Object> entry : properties.entrySet()) {
@@ -113,7 +114,6 @@ public class InlineMessageHandler {
 
                 Utils.checkProperties(properties, update);
 
-                Random randomGen = new Random();
                 int random = randomGen.nextInt(properties.size());
                 List<String> list = new ArrayList<>();
                 for (Map.Entry<Object, Object> entry : properties.entrySet()) {
@@ -177,16 +177,14 @@ public class InlineMessageHandler {
         List<String> list = new ArrayList<>();
         list.addAll(0, Divination.divinationList);
 
-        Random randomGen = new Random();
         int random = randomGen.nextInt(2) + 3;
-        int count = 1;
+        Collections.shuffle(list);
 
-        while (count <= random) {
-            Collections.shuffle(list);
-            SendMessage message = new SendMessage(chatId, list.get(0));
+        while (random >= 0) {
+            SendMessage message = new SendMessage(chatId, list.get(random));
             bot.sendMessage(message);
-            list.remove(0);
-            count++;
+            list.remove(random);
+            random--;
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException ex) {
