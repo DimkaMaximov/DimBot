@@ -58,10 +58,14 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${project.parent.version}</version>
+                <configuration>
+                    <mainClass>dim.application.TelegramBotApplication</mainClass>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
                             <goal>build-info</goal>
+                            <goal>repackage</goal>
                         </goals>
                         <configuration>
                             <additionalProperties>
@@ -73,6 +77,15 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.heroku.sdk</groupId>
+                <artifactId>heroku-maven-plugin</artifactId>
+                <version>3.0.3</version>
+                <configuration>
+                    <jdkVersion>1.8</jdkVersion>
+                    <appName>telegram-robo-cat-bot</appName>
+                </configuration>
             </plugin>
         </plugins>
     </build>

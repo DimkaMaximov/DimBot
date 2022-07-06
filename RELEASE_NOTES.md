@@ -48,3 +48,7 @@
 
 ## 0.4.2-SNAPSHOT
 * Файл properties изменен на yaml для деплоя
+
+## 0.4.3-SNAPSHOT
+* в файл pom добавлен плагин для деплоя на Heroku
+* в Procfile добавлены два процесса: web и worker
