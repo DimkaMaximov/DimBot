@@ -14,14 +14,14 @@ public class InlineKeyboardMaker {
         List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
 
         rowList.add(getTwoButtonsInRow(
-                "Крути петушиный барабан", "Крути петушиный барабан",
-                "Выбери красавчика", "Выбери красавчика"));
+                ButtonNameEnum.IDENTIFY_ROOSTER.getButtonName(), ButtonNameEnum.IDENTIFY_ROOSTER.getButtonName(),
+                ButtonNameEnum.SHOW_STATISTIC.getButtonName(), ButtonNameEnum.SHOW_STATISTIC.getButtonName()));
 
         rowList.add(getTwoButtonsInRow(
-                "Сделай что-нибудь", "Сделай что-нибудь",
-                "Пришли мне котика", "Пришли мне котика"));
+                ButtonNameEnum.DO_SOMETHING.getButtonName(), ButtonNameEnum.DO_SOMETHING.getButtonName(),
+                ButtonNameEnum.SEND_ME_A_CAT.getButtonName(), ButtonNameEnum.SEND_ME_A_CAT.getButtonName()));
 
-        rowList.add(getButtonInRow("Скажи мне что-нибудь приятное", "Скажи мне что-нибудь приятное"));
+        rowList.add(getButtonInRow(ButtonNameEnum.SAY_ME_A_COMPLIMENT.getButtonName(), ButtonNameEnum.SAY_ME_A_COMPLIMENT.getButtonName()));
 
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         inlineKeyboardMarkup.setKeyboard(rowList);

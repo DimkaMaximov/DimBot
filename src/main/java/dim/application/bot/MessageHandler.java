@@ -109,7 +109,8 @@ public class MessageHandler {
                 return list.isEmpty() ? "Сегодня все красавчики" : "\uD83C\uDF89 Сегодня красавчик - " + list.get(random);
 
             case "Сделай что-нибудь":
-                SendAudio audioMessage = new SendAudio(chatId, new InputFile(new File("src/main/resources/audio/otryshka.mp3")));
+                SendAudio audioMessage = new SendAudio(chatId, new InputFile(new File("src/main/resources/audio/audio_1.mp3")));
+                //SendAudio audioMessage = new SendAudio(chatId, new InputFile(new File("target/classes/audio/audio_1.mp3")));
                 try {
                     bot.execute(audioMessage);
                 } catch (TelegramApiException e) {
@@ -188,7 +189,7 @@ public class MessageHandler {
     public void checkProperties(Update update) {
         try {
             properties.load(new FileReader("src/main/resources/users/users.properties"));
-            //properties.load(new FileReader(System.getProperty("user.home") + File.separator + "users.properties"));
+            //properties.load(new FileReader("target/classes/users/users.properties"));
             User user = null;
             if (update.hasMessage()) {
                 user = update.getMessage().getFrom();
@@ -200,7 +201,7 @@ public class MessageHandler {
                 String lastName = user.getLastName() != null ? user.getLastName() : "";
                 properties.setProperty(user.getUserName(), firstName + " " + lastName);
                 properties.store(new FileOutputStream("src/main/resources/users/users.properties"), null);
-                //properties.store(new FileOutputStream(System.getProperty("user.home") + File.separator + "users.properties""), null);
+                //properties.store(new FileOutputStream("target/classes/users/users.properties"), null);
             }
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);

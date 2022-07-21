@@ -5,10 +5,11 @@ package dim.application.bot.component;
  */
 public enum ButtonNameEnum {
     IDENTIFY_ROOSTER("Крути петушиный барабан"),
-    IDENTIFY_PRETTY("Вычислить красавчика"),
+    SHOW_STATISTIC("Покажи ПетушСтат"),
     DO_SOMETHING("Сделай что-нибудь"),
-    SEND_ME_CAT("Пришли мне котика"),
-    ESTIMATE_AVATAR("Оцени мою аватарку");
+    SEND_ME_A_CAT("Пришли мне котика"),
+    ESTIMATE_AVATAR("Оцени мою аватарку"),
+    SAY_ME_A_COMPLIMENT("Скажи мне что-нибудь приятное");
 
     private final String buttonName;
 

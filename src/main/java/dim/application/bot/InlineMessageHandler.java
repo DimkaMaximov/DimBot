@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
@@ -99,35 +100,34 @@ public class InlineMessageHandler {
 
                 estimationResponse(chatId);
 
-                return list.isEmpty() ? "\uD83C\uDF89 Сегодня все петухи" : "\uD83C\uDF89 Сегодня петух - " + list.get(random);
+                String newRooster = list.get(random);
+
+                bot.getStatistic().put(newRooster, bot.getStatistic().getOrDefault(newRooster, 0) + 1);
+
+                return list.isEmpty() ? "\uD83C\uDF89 Сегодня все петухи" : "\uD83C\uDF89 Сегодня петух - " + newRooster;
             }
 
-            case "Выбери красавчика":
-                if (bot.getDateForPretty() == null || !bot.getDateForPretty().isEqual(LocalDate.now())) {
-                    bot.setDateForPretty(LocalDate.now());
-                } else {
-                    SendMessage sm = new SendMessage(chatId,
-                            userName + ", красавчик на сегодня уже известен \uD83D\uDE09");
-                    bot.sendMessage(sm);
-                    return "";
+            case "Покажи ПетушСтат":
+
+                if (bot.getMonth() == null || !bot.getMonth().equals(LocalDate.now().getMonth())) {
+                    bot.setMonth(LocalDate.now().getMonth());
+                    bot.getStatistic().clear();
+                    return "Петушиный барабан в этом месяце еще не крутили";
                 }
 
-                Utils.checkProperties(properties, update);
+                StringBuilder stringBuilder = new StringBuilder();
 
-                int random = randomGen.nextInt(properties.size());
-                List<String> list = new ArrayList<>();
-                for (Map.Entry<Object, Object> entry : properties.entrySet()) {
-                    list.add(entry.getValue().toString());
-                }
+                bot.getStatistic().entrySet().stream()
+                        .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
+                        .collect(Collectors.toList())
+                        .forEach(v -> stringBuilder.append(v).append("\n"));
 
-                bot.sendMessage(new SendMessage(chatId, "Выбираю красавчика ⏱\uD83E\uDD70"));
-
-                estimationResponse(chatId);
-
-                return list.isEmpty() ? "Сегодня все красавчики" : "\uD83C\uDF89 Сегодня красавчик - " + list.get(random);
+                bot.sendMessage(new SendMessage(chatId, userName + ", вот тебе петушиная статистика за месяц:\n" + stringBuilder));
+                return "";
 
             case "Сделай что-нибудь":
                 SendAudio audioMessage = new SendAudio(chatId, new InputFile(new File("src/main/resources/audio/audio_2.mp3")));
+                //SendAudio audioMessage = new SendAudio(chatId, new InputFile(new File("target/classes/audio/audio_2.mp3")));
                 try {
                     bot.execute(audioMessage);
                 } catch (TelegramApiException e) {

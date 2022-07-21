@@ -15,11 +15,11 @@ public class ReplyKeyboardMaker {
 
         KeyboardRow row1 = new KeyboardRow();
         row1.add(new KeyboardButton(ButtonNameEnum.IDENTIFY_ROOSTER.getButtonName()));
-        row1.add(new KeyboardButton(ButtonNameEnum.IDENTIFY_PRETTY.getButtonName()));
+        row1.add(new KeyboardButton(ButtonNameEnum.SHOW_STATISTIC.getButtonName()));
 
         KeyboardRow row2 = new KeyboardRow();
         row2.add(new KeyboardButton(ButtonNameEnum.DO_SOMETHING.getButtonName()));
-        row2.add(new KeyboardButton(ButtonNameEnum.SEND_ME_CAT.getButtonName()));
+        row2.add(new KeyboardButton(ButtonNameEnum.SEND_ME_A_CAT.getButtonName()));
 
         List<KeyboardRow> keyboard = new ArrayList<>();
         keyboard.add(row1);
