@@ -78,7 +78,10 @@ public class InlineMessageHandler {
                 return "";
 
             case "Крути петушиный барабан": {
-
+                if (bot.getMonth() == null || !bot.getMonth().equals(LocalDate.now().getMonth())) {
+                    bot.setMonth(LocalDate.now().getMonth());
+                    bot.getStatistic().clear();
+                }
                 if (bot.getDateForRooster() == null || !bot.getDateForRooster().isEqual(LocalDate.now())) {
                     bot.setDateForRooster(LocalDate.now());
                 } else {
@@ -108,8 +111,7 @@ public class InlineMessageHandler {
             }
 
             case "Покажи ПетушСтат":
-
-                if (bot.getMonth() == null || !bot.getMonth().equals(LocalDate.now().getMonth())) {
+                if (bot.getMonth() == null || !bot.getMonth().equals(LocalDate.now().getMonth()) || bot.getStatistic().isEmpty()) {
                     bot.setMonth(LocalDate.now().getMonth());
                     bot.getStatistic().clear();
                     return "Петушиный барабан в этом месяце еще не крутили";
@@ -122,12 +124,12 @@ public class InlineMessageHandler {
                         .collect(Collectors.toList())
                         .forEach(v -> stringBuilder.append(v).append("\n"));
 
-                bot.sendMessage(new SendMessage(chatId, userName + ", вот тебе петушиная статистика за месяц:\n" + stringBuilder));
+                bot.sendMessage(new SendMessage(chatId, userName + ", вот тебе петушиная статистика за месяц:\n\n" + stringBuilder));
                 return "";
 
             case "Сделай что-нибудь":
-                SendAudio audioMessage = new SendAudio(chatId, new InputFile(new File("src/main/resources/audio/audio_2.mp3")));
-                //SendAudio audioMessage = new SendAudio(chatId, new InputFile(new File("target/classes/audio/audio_2.mp3")));
+                //SendAudio audioMessage = new SendAudio(chatId, new InputFile(new File("src/main/resources/audio/audio_2.mp3")));
+                SendAudio audioMessage = new SendAudio(chatId, new InputFile(new File("target/classes/audio/audio_2.mp3")));
                 try {
                     bot.execute(audioMessage);
                 } catch (TelegramApiException e) {

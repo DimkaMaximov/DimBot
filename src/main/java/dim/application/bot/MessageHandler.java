@@ -188,8 +188,8 @@ public class MessageHandler {
 
     public void checkProperties(Update update) {
         try {
-            properties.load(new FileReader("src/main/resources/users/users.properties"));
-            //properties.load(new FileReader("target/classes/users/users.properties"));
+            //properties.load(new FileReader("src/main/resources/users/users.properties"));
+            properties.load(new FileReader("target/classes/users/users.properties"));
             User user = null;
             if (update.hasMessage()) {
                 user = update.getMessage().getFrom();
@@ -200,8 +200,8 @@ public class MessageHandler {
                 String firstName = user.getFirstName() != null ? user.getFirstName() : "";
                 String lastName = user.getLastName() != null ? user.getLastName() : "";
                 properties.setProperty(user.getUserName(), firstName + " " + lastName);
-                properties.store(new FileOutputStream("src/main/resources/users/users.properties"), null);
-                //properties.store(new FileOutputStream("target/classes/users/users.properties"), null);
+                //properties.store(new FileOutputStream("src/main/resources/users/users.properties"), null);
+                properties.store(new FileOutputStream("target/classes/users/users.properties"), null);
             }
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);

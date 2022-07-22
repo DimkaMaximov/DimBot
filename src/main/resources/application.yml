@@ -3,3 +3,4 @@ telegram:
   webhook-path: ${BOT_WEBHOOK-PATH}
   bot-name: ${BOT_NAME}
   bot-token: ${BOT_TOKEN}
+  bot-version:
