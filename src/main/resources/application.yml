@@ -4,3 +4,21 @@ telegram:
   bot-name: ${BOT_NAME}
   bot-token: ${BOT_TOKEN}
   bot-version:
+
+spring:
+  datasource:
+    url:
+    username:
+    password:
+    driver-class-name: org.postgresql.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+
+    hikari:
+      maximum-pool-size: 10
+      connection-timeout: 120000
+      max-lifetime: 120000
+      minimum-idle: 4
+
+  liquibase:
+    enabled: true
+    change-log: db/master.xml

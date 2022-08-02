@@ -11,7 +11,6 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.HashMap;
 
 public class RoboCatBot extends TelegramLongPollingBot {
 
@@ -38,10 +37,6 @@ public class RoboCatBot extends TelegramLongPollingBot {
     @Getter
     @Setter
     private Month month;
-
-    @Getter
-    @Setter
-    private HashMap<String, Integer> statistic = new HashMap<>();
 
     @Override
     public void onUpdateReceived(Update update) {

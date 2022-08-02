@@ -5,6 +5,8 @@ import dim.application.bot.component.Divination;
 import dim.application.bot.component.InlineKeyboardMaker;
 import dim.application.bot.component.ReplyKeyboardMaker;
 import dim.application.bot.component.Stickers;
+import dim.application.model.entity.Rooster;
+import dim.application.service.api.RoosterService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,8 +23,8 @@ import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -35,6 +37,9 @@ public class InlineMessageHandler {
 
     @Autowired
     private RoboCatBot bot;
+
+    @Autowired
+    private RoosterService service;
 
     @Autowired
     private ReplyKeyboardMaker replyKeyboardMaker;
@@ -80,7 +85,7 @@ public class InlineMessageHandler {
             case "Крути петушиный барабан": {
                 if (bot.getMonth() == null || !bot.getMonth().equals(LocalDate.now().getMonth())) {
                     bot.setMonth(LocalDate.now().getMonth());
-                    bot.getStatistic().clear();
+                    service.clearStatistics();
                 }
                 if (bot.getDateForRooster() == null || !bot.getDateForRooster().isEqual(LocalDate.now())) {
                     bot.setDateForRooster(LocalDate.now());
@@ -91,38 +96,36 @@ public class InlineMessageHandler {
                     return "";
                 }
 
-                Utils.checkProperties(properties, update);
+                Utils.checkProperties(service, update);
 
-                int random = randomGen.nextInt(properties.size());
-                List<String> list = new ArrayList<>();
-                for (Map.Entry<Object, Object> entry : properties.entrySet()) {
-                    list.add(entry.getValue().toString());
-                }
+                List<Rooster> roosters = service.getAll();
 
                 bot.sendMessage(new SendMessage(chatId, "Кручу петушиный барабан ⏱\uD83D\uDC14"));
 
                 estimationResponse(chatId);
 
-                String newRooster = list.get(random);
+                Collections.shuffle(roosters);
+                Rooster newRooster = roosters.get(0);
 
-                bot.getStatistic().put(newRooster, bot.getStatistic().getOrDefault(newRooster, 0) + 1);
+                newRooster.setMonthCount(newRooster.getMonthCount() + 1);
+                service.save(newRooster);
 
-                return list.isEmpty() ? "\uD83C\uDF89 Сегодня все петухи" : "\uD83C\uDF89 Сегодня петух - " + newRooster;
+                return roosters.isEmpty() ? "\uD83C\uDF89 Сегодня все петухи" : "\uD83C\uDF89 Сегодня петух - " + newRooster.getFullName();
             }
 
             case "Покажи ПетушСтат":
-                if (bot.getMonth() == null || !bot.getMonth().equals(LocalDate.now().getMonth()) || bot.getStatistic().isEmpty()) {
+                if (bot.getMonth() == null || !bot.getMonth().equals(LocalDate.now().getMonth()) || service.getAll().isEmpty()) {
                     bot.setMonth(LocalDate.now().getMonth());
-                    bot.getStatistic().clear();
+                    service.clearStatistics();
                     return "Петушиный барабан в этом месяце еще не крутили";
                 }
 
                 StringBuilder stringBuilder = new StringBuilder();
 
-                bot.getStatistic().entrySet().stream()
-                        .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
+                service.getAll().stream()
+                        .sorted(Comparator.comparingLong(Rooster::getMonthCount).reversed())
                         .collect(Collectors.toList())
-                        .forEach(v -> stringBuilder.append(v).append("\n"));
+                        .forEach(rooster -> stringBuilder.append(rooster.getFullName()).append(" = ").append(rooster.getMonthCount()).append("\n"));
 
                 bot.sendMessage(new SendMessage(chatId, userName + ", вот тебе петушиная статистика за месяц:\n\n" + stringBuilder));
                 return "";

@@ -1,39 +1,33 @@
 package dim.application.bot;
 
+import dim.application.model.entity.Rooster;
+import dim.application.service.api.RoosterService;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Properties;
+import java.util.List;
 
 public class Utils {
 
-    public static void checkProperties(Properties properties, Update update) {
-        try {
-            //properties.load(new FileReader("src/main/resources/users/users.properties"));
-            properties.load(new FileReader("target/classes/users/users.properties"));
-            User user = null;
-            if (update.hasMessage()) {
-                user = update.getMessage().getFrom();
-            } else if (update.hasCallbackQuery()) {
-                user = update.getCallbackQuery().getMessage().getFrom();
-            }
-            if (!properties.contains(user) && !user.getUserName().equals("robo_cat_bot")) {
-                String firstName = user.getFirstName() != null ? user.getFirstName() : "";
-                String lastName = user.getLastName() != null ? user.getLastName() : "";
-                properties.setProperty(user.getUserName(), firstName + " " + lastName);
-                //properties.store(new FileOutputStream("src/main/resources/users/users.properties"), null);
-                properties.store(new FileOutputStream("target/classes/users/users.properties"), null);
-            }
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+    public static void checkProperties(RoosterService service, Update update) {
+        List<Rooster> list = service.getAll();
+        List<String> users = new ArrayList<>();
+        for (Rooster rooster : list) {
+            users.add(rooster.getLogin());
+        }
+        User user = null;
+        if (update.hasMessage()) {
+            user = update.getMessage().getFrom();
+        } else if (update.hasCallbackQuery()) {
+            user = update.getCallbackQuery().getMessage().getFrom();
+        }
+        if (!users.contains(user.getUserName()) && !user.getUserName().equals("robo_cat_bot")) {
+            String firstName = user.getFirstName();
+            String lastName = user.getLastName() != null ? user.getLastName() : "";
+            service.save(new Rooster(user.getUserName(), firstName + " " + lastName));
         }
     }
 

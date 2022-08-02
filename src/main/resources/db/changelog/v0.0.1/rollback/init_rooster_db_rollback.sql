@@ -1,0 +1,3 @@
+DROP TABLE IF EXISTS rooster_list CASCADE;
+
+DROP SEQUENCE IF EXISTS rooster_list_seq;
