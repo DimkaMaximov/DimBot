@@ -12,7 +12,7 @@ import java.util.List;
 
 public class Utils {
 
-    public static void checkProperties(RoosterService service, Update update) {
+    public static void checkUsers(RoosterService service, Update update) {
         List<Rooster> list = service.getAll();
         List<String> users = new ArrayList<>();
         for (Rooster rooster : list) {

@@ -10,7 +10,6 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.time.LocalDate;
-import java.time.Month;
 
 public class RoboCatBot extends TelegramLongPollingBot {
 
@@ -33,10 +32,6 @@ public class RoboCatBot extends TelegramLongPollingBot {
     @Getter
     @Setter
     private LocalDate dateForPretty;
-
-    @Getter
-    @Setter
-    private Month month;
 
     @Override
     public void onUpdateReceived(Update update) {

@@ -20,6 +20,11 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,6 +40,8 @@ import java.util.stream.Collectors;
 @Component
 public class InlineMessageHandler {
 
+    private static final String MONTH_PROPERTY = "estimate-month";
+
     @Autowired
     private RoboCatBot bot;
 
@@ -47,11 +54,17 @@ public class InlineMessageHandler {
     @Autowired
     private InlineKeyboardMaker inlineKeyboardMaker;
 
-    private Properties properties = new Properties();
+    private static Properties properties = new Properties();
+
+    static {
+        try {
+            properties.load(new FileReader("target/classes/month.properties"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     private Random randomGen = new Random();
-
-    //private List<String> users;
 
     public String handleMessage(Update update) {
 
@@ -83,8 +96,14 @@ public class InlineMessageHandler {
                 return "";
 
             case "Крути петушиный барабан": {
-                if (bot.getMonth() == null || !bot.getMonth().equals(LocalDate.now().getMonth())) {
-                    bot.setMonth(LocalDate.now().getMonth());
+                if (properties.getProperty(MONTH_PROPERTY) == null
+                        || !properties.getProperty(MONTH_PROPERTY).equals(LocalDate.now().getMonth().toString())) {
+                    properties.setProperty(MONTH_PROPERTY, LocalDate.now().getMonth().toString());
+                    try(OutputStream os = Files.newOutputStream(Paths.get("target/classes/month.properties"))) {
+                        properties.store(os, null);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                     service.clearStatistics();
                 }
                 if (bot.getDateForRooster() == null || !bot.getDateForRooster().isEqual(LocalDate.now())) {
@@ -96,7 +115,7 @@ public class InlineMessageHandler {
                     return "";
                 }
 
-                Utils.checkProperties(service, update);
+                Utils.checkUsers(service, update);
 
                 List<Rooster> roosters = service.getAll();
 
@@ -105,8 +124,8 @@ public class InlineMessageHandler {
                 estimationResponse(chatId);
 
                 Collections.shuffle(roosters);
-                Rooster newRooster = roosters.get(0);
 
+                Rooster newRooster = roosters.get(0);
                 newRooster.setMonthCount(newRooster.getMonthCount() + 1);
                 service.save(newRooster);
 
@@ -114,8 +133,8 @@ public class InlineMessageHandler {
             }
 
             case "Покажи ПетушСтат":
-                if (bot.getMonth() == null || !bot.getMonth().equals(LocalDate.now().getMonth()) || service.getAll().isEmpty()) {
-                    bot.setMonth(LocalDate.now().getMonth());
+                if (properties.getProperty(MONTH_PROPERTY) == null
+                        || !properties.getProperty(MONTH_PROPERTY).equals(LocalDate.now().getMonth().toString())) {
                     service.clearStatistics();
                     return "Петушиный барабан в этом месяце еще не крутили";
                 }

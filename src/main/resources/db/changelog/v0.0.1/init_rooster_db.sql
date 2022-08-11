@@ -1,6 +1,6 @@
-CREATE SEQUENCE rooster_list_seq START WITH 1 INCREMENT 1;
+CREATE SEQUENCE IF NOT EXISTS rooster_list_seq START WITH 1 INCREMENT 1;
 
-CREATE TABLE rooster_list
+CREATE TABLE IF NOT EXISTS rooster_list
 (
     id          BIGINT PRIMARY KEY DEFAULT nextval('rooster_list_seq'),
     login       VARCHAR,

@@ -7,9 +7,14 @@ telegram:
 
 spring:
   datasource:
-    url:
-    username:
-    password:
+    # localhost
+    url: jdbc:postgresql://localhost:5432/robocat_db?currentSchema=rooster_list
+    username: rooster
+    password: rooster
+    # heroku
+#    url:
+#    username:
+#    password:
     driver-class-name: org.postgresql.Driver
     type: com.zaxxer.hikari.HikariDataSource
 

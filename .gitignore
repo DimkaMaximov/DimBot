@@ -1,8 +1,5 @@
 HELP.md
 
-/src/main/resources/application.yml
-/src/main/resources/users/users.properties
-
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
