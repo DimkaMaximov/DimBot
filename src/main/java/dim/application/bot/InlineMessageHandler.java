@@ -20,17 +20,11 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Properties;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -39,8 +33,6 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Component
 public class InlineMessageHandler {
-
-    private static final String MONTH_PROPERTY = "estimate-month";
 
     @Autowired
     private RoboCatBot bot;
@@ -53,16 +45,6 @@ public class InlineMessageHandler {
 
     @Autowired
     private InlineKeyboardMaker inlineKeyboardMaker;
-
-    private static Properties properties = new Properties();
-
-    static {
-        try {
-            properties.load(new FileReader("target/classes/month.properties"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     private Random randomGen = new Random();
 
@@ -96,16 +78,6 @@ public class InlineMessageHandler {
                 return "";
 
             case "Крути петушиный барабан": {
-                if (properties.getProperty(MONTH_PROPERTY) == null
-                        || !properties.getProperty(MONTH_PROPERTY).equals(LocalDate.now().getMonth().toString())) {
-                    properties.setProperty(MONTH_PROPERTY, LocalDate.now().getMonth().toString());
-                    try(OutputStream os = Files.newOutputStream(Paths.get("target/classes/month.properties"))) {
-                        properties.store(os, null);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                    service.clearStatistics();
-                }
                 if (bot.getDateForRooster() == null || !bot.getDateForRooster().isEqual(LocalDate.now())) {
                     bot.setDateForRooster(LocalDate.now());
                 } else {
@@ -113,6 +85,9 @@ public class InlineMessageHandler {
                             userName + ", уже все знают, кто сегодня петух \uD83D\uDE09");
                     bot.sendMessage(sm);
                     return "";
+                }
+                if (LocalDate.now().getDayOfMonth() == 1) {
+                    service.clearStatistics();
                 }
 
                 Utils.checkUsers(service, update);
@@ -133,12 +108,6 @@ public class InlineMessageHandler {
             }
 
             case "Покажи ПетушСтат":
-                if (properties.getProperty(MONTH_PROPERTY) == null
-                        || !properties.getProperty(MONTH_PROPERTY).equals(LocalDate.now().getMonth().toString())) {
-                    service.clearStatistics();
-                    return "Петушиный барабан в этом месяце еще не крутили";
-                }
-
                 StringBuilder stringBuilder = new StringBuilder();
 
                 service.getAll().stream()
