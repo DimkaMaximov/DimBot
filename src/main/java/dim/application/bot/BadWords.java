@@ -4,7 +4,7 @@ public class BadWords {
 
     final static String badWordsString =
             "даун, идиот, идиот, 6ля, 6лядь, 6лять, b3ъeб, cock, cunt, e6aль, ebal, eblan, eбaл, " +
-                    "eбaть, eбyч, eбать, eбёт, eблантий, fuck, fucker, fucking, xyёв, xyй, xyя, xуе, " +
+                    "eбaть, eбyч, ебак, ебака, eбать, eбёт, eблантий, ебобо, fuck, fucker, fucking, xyёв, xyй, xyя, xуе, " +
                     "xуй, xую, zaeb, zaebal, zaebali, zaebat, архипиздрит, ахуел, ахуеть, бздение, " +
                     "бздеть, бздех, бздецы, бздит, бздицы, бздло, бзднуть, бздун, бздунья, бздюха, бздюшка, " +
                     "бздюшко, бля, блябу, блябуду, бляд, бляди, блядина, блядище, блядки, блядовать, блядство, " +

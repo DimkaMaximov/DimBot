@@ -98,7 +98,7 @@ public class InlineMessageHandler {
 
                 estimationResponse(chatId);
 
-                Collections.shuffle(roosters);
+                Collections.shuffle(roosters, new Random(3));
 
                 Rooster newRooster = roosters.get(0);
                 newRooster.setMonthCount(newRooster.getMonthCount() + 1);
